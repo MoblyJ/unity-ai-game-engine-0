@@ -1,0 +1,20 @@
+# Large cloned third-party repos (studied during planning; not part of this project)
+repo/
+
+# Python virtualenv + bytecode
+.venv/
+__pycache__/
+*.pyc
+
+# Node
+node_modules/
+
+# Logs / run transcripts
+logs/
+
+# npm pack output
+*.tgz
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
