@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 92" width="1100" height="92" font-family="'Courier New', monospace">
+  <defs><linearGradient id="v2" x1="0" x2="1"><stop offset="0" stop-color="#0d0221"/><stop offset="1" stop-color="#0d2a0a"/></linearGradient>
+  <filter id="vg"><feDropShadow dx="0" dy="0" stdDeviation="3" flood-color="#39ff14" flood-opacity="0.9"/></filter>
+  <pattern id="vs" width="4" height="4" patternUnits="userSpaceOnUse"><rect width="4" height="2" fill="#000" opacity="0.1"/></pattern></defs>
+  <rect width="1100" height="92" rx="12" fill="url(#v2)" stroke="#39ff14" stroke-width="2"/>
+  <rect x="0" y="0" width="10" height="92" fill="#39ff14"/>
+  <text x="44" y="58" font-size="30" font-weight="bold" fill="#39ff14" letter-spacing="2" filter="url(#vg)">✅ VERIFICATION</text>
+  <text x="680" y="40" font-size="13" fill="#baffb0">py_compile · stub round-trip</text>
+  <text x="680" y="62" font-size="13" fill="#baffb0">32 tools · live cube</text>
+  <rect width="1100" height="92" rx="12" fill="url(#vs)"/>
+</svg>

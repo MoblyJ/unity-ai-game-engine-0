@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 560" width="1200" height="560" font-family="'Courier New', monospace">
+  <defs>
+    <linearGradient id="bg2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#12002e"/><stop offset="1" stop-color="#0d0221"/>
+    </linearGradient>
+    <filter id="gc" x="-40%" y="-40%" width="180%" height="180%"><feDropShadow dx="0" dy="0" stdDeviation="3.5" flood-color="#00fff0" flood-opacity="0.8"/></filter>
+    <filter id="gm" x="-40%" y="-40%" width="180%" height="180%"><feDropShadow dx="0" dy="0" stdDeviation="3.5" flood-color="#ff2e97" flood-opacity="0.8"/></filter>
+    <filter id="gg" x="-40%" y="-40%" width="180%" height="180%"><feDropShadow dx="0" dy="0" stdDeviation="3" flood-color="#39ff14" flood-opacity="0.9"/></filter>
+    <marker id="arr" markerWidth="12" markerHeight="12" refX="8" refY="6" orient="auto">
+      <path d="M1,1 L10,6 L1,11 Z" fill="#39ff14"/>
+    </marker>
+    <pattern id="scan2" width="4" height="4" patternUnits="userSpaceOnUse"><rect width="4" height="2" fill="#000" opacity="0.10"/></pattern>
+  </defs>
+  <rect width="1200" height="560" fill="url(#bg2)"/>
+
+  <!-- WSL zone -->
+  <rect x="40" y="30" width="1120" height="170" rx="16" fill="#0a0420" stroke="#00fff0" stroke-width="2.5" filter="url(#gc)"/>
+  <text x="66" y="60" font-size="18" font-weight="bold" fill="#00fff0" letter-spacing="2">▚ WSL2 · UBUNTU</text>
+
+  <rect x="80" y="82" width="230" height="86" rx="10" fill="#141033" stroke="#ffd700" stroke-width="2"/>
+  <text x="195" y="118" text-anchor="middle" font-size="20" font-weight="bold" fill="#ffd700">YOU</text>
+  <text x="195" y="146" text-anchor="middle" font-size="12" fill="#c9c9ff">"add a red cube"</text>
+
+  <line x1="310" y1="125" x2="380" y2="125" stroke="#39ff14" stroke-width="3" marker-end="url(#arr)"/>
+
+  <rect x="390" y="82" width="360" height="86" rx="10" fill="#141033" stroke="#00fff0" stroke-width="2"/>
+  <text x="570" y="115" text-anchor="middle" font-size="20" font-weight="bold" fill="#00fff0">CLAUDE CODE</text>
+  <text x="570" y="146" text-anchor="middle" font-size="12" fill="#c9c9ff">the game-dev brain · /unity-build</text>
+
+  <rect x="800" y="90" width="320" height="70" rx="10" fill="#141033" stroke="#7b2ff7" stroke-width="2"/>
+  <text x="960" y="120" text-anchor="middle" font-size="13" font-weight="bold" fill="#b085ff">MCP stdio (interop)</text>
+  <text x="960" y="142" text-anchor="middle" font-size="11" fill="#c9c9ff">python.exe  C:\...\server</text>
+
+  <!-- connector down -->
+  <line x1="600" y1="200" x2="600" y2="252" stroke="#39ff14" stroke-width="3" marker-end="url(#arr)"/>
+  <text x="616" y="232" font-size="12" fill="#39ff14">runs ON Windows → 127.0.0.1 = Unity</text>
+
+  <!-- Windows zone -->
+  <rect x="40" y="262" width="1120" height="272" rx="16" fill="#0a0420" stroke="#ff2e97" stroke-width="2.5" filter="url(#gm)"/>
+  <text x="66" y="292" font-size="18" font-weight="bold" fill="#ff2e97" letter-spacing="2">▚ WINDOWS</text>
+
+  <!-- MCP server -->
+  <rect x="80" y="308" width="470" height="94" rx="10" fill="#141033" stroke="#00fff0" stroke-width="2"/>
+  <text x="315" y="336" text-anchor="middle" font-size="17" font-weight="bold" fill="#00fff0">unity_editor_mcp · FastMCP</text>
+  <text x="315" y="360" text-anchor="middle" font-size="12" fill="#c9c9ff">32 tools · Pydantic-validated args</text>
+  <text x="315" y="382" text-anchor="middle" font-size="12" fill="#ffd700">→ JSON op { id, op, args }</text>
+
+  <!-- TCP arrow -->
+  <line x1="315" y1="402" x2="315" y2="440" stroke="#39ff14" stroke-width="3" marker-end="url(#arr)"/>
+  <rect x="150" y="410" width="330" height="24" rx="12" fill="#0d0221" stroke="#39ff14" stroke-width="1.5"/>
+  <text x="315" y="427" text-anchor="middle" font-size="12" font-weight="bold" fill="#39ff14" filter="url(#gg)">TCP 127.0.0.1:8765 · newline JSON</text>
+
+  <!-- Unity bridge -->
+  <rect x="80" y="446" width="1040" height="76" rx="10" fill="#141033" stroke="#ff2e97" stroke-width="2"/>
+  <text x="600" y="474" text-anchor="middle" font-size="17" font-weight="bold" fill="#ff6ec7">UNITY EDITOR · AgentBridge (C#)</text>
+  <text x="600" y="500" text-anchor="middle" font-size="12" fill="#c9c9ff">TcpListener → main-thread queue → CommandDispatcher → UnityEditor API · builds live · screenshots back</text>
+
+  <!-- right rail chips -->
+  <rect x="600" y="316" width="520" height="78" rx="10" fill="#120a2e" stroke="#7b2ff7" stroke-width="1.5"/>
+  <text x="620" y="340" font-size="12" fill="#b085ff">✔ symbolic ops only — LLM never touches Unity APIs</text>
+  <text x="620" y="362" font-size="12" fill="#b085ff">✔ main-thread safe · Undo-wrapped · fail-soft errors</text>
+  <text x="620" y="384" font-size="12" fill="#b085ff">✔ zero networking setup (localhost shared)</text>
+
+  <rect width="1200" height="560" fill="url(#scan2)"/>
+</svg>

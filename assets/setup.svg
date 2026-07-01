@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 380" width="1200" height="380" font-family="'Courier New', monospace">
+  <defs>
+    <linearGradient id="bs" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#170a33"/><stop offset="1" stop-color="#0d0221"/></linearGradient>
+    <filter id="sg" x="-40%" y="-40%" width="180%" height="180%"><feDropShadow dx="0" dy="0" stdDeviation="3" flood-color="#00fff0" flood-opacity="0.8"/></filter>
+    <pattern id="scans" width="4" height="4" patternUnits="userSpaceOnUse"><rect width="4" height="2" fill="#000" opacity="0.10"/></pattern>
+  </defs>
+  <rect width="1200" height="380" fill="url(#bs)"/>
+  <text x="600" y="48" text-anchor="middle" font-size="22" font-weight="bold" fill="#00fff0" letter-spacing="4" filter="url(#sg)">▶ SELECT SETUP MODE ◀</text>
+
+  <!-- Card A -->
+  <rect x="50" y="80" width="350" height="250" rx="16" fill="#0a0420" stroke="#39ff14" stroke-width="3"/>
+  <rect x="50" y="80" width="350" height="52" rx="16" fill="#39ff14" opacity="0.15"/>
+  <text x="225" y="115" text-anchor="middle" font-size="20" font-weight="bold" fill="#39ff14">Ⓐ  npm CLI</text>
+  <text x="225" y="164" text-anchor="middle" font-size="14" fill="#d6ffcf">one command, from WSL</text>
+  <rect x="72" y="184" width="306" height="96" rx="8" fill="#0d1f08" stroke="#39ff14" stroke-width="1"/>
+  <g font-size="13" fill="#baffb0"><text x="88" y="208">$ npm install -g .</text><text x="88" y="232">$ unity-mcp-bridge check</text><text x="88" y="256">$ unity-mcp-bridge</text></g>
+  <text x="225" y="308" text-anchor="middle" font-size="12" fill="#39ff14">★ RECOMMENDED</text>
+
+  <!-- Card B -->
+  <rect x="425" y="80" width="350" height="250" rx="16" fill="#0a0420" stroke="#ff2e97" stroke-width="3"/>
+  <rect x="425" y="80" width="350" height="52" rx="16" fill="#ff2e97" opacity="0.15"/>
+  <text x="600" y="115" text-anchor="middle" font-size="20" font-weight="bold" fill="#ff6ec7">Ⓑ  Setup EXE</text>
+  <text x="600" y="164" text-anchor="middle" font-size="14" fill="#ffd6ef">double-click on Windows</text>
+  <rect x="447" y="184" width="306" height="96" rx="8" fill="#22061a" stroke="#ff2e97" stroke-width="1"/>
+  <g font-size="12.5" fill="#ffc7e6"><text x="463" y="206">▸ stage server + deps</text><text x="463" y="228">▸ register w/ Claude Code</text><text x="463" y="250">▸ create project + bridge</text><text x="463" y="272">▸ launch Unity, comms up</text></g>
+  <text x="600" y="308" text-anchor="middle" font-size="12" fill="#ff6ec7">UnityMCPSetup.exe</text>
+
+  <!-- Card C -->
+  <rect x="800" y="80" width="350" height="250" rx="16" fill="#0a0420" stroke="#ffd700" stroke-width="3"/>
+  <rect x="800" y="80" width="350" height="52" rx="16" fill="#ffd700" opacity="0.15"/>
+  <text x="975" y="115" text-anchor="middle" font-size="20" font-weight="bold" fill="#ffd700">Ⓒ  Manual</text>
+  <text x="975" y="164" text-anchor="middle" font-size="14" fill="#fff3bf">full control, step by step</text>
+  <rect x="822" y="184" width="306" height="96" rx="8" fill="#211a05" stroke="#ffd700" stroke-width="1"/>
+  <g font-size="12.5" fill="#ffe98a"><text x="838" y="206">1 · drop AgentBridge in</text><text x="838" y="228">2 · stage server + pip</text><text x="838" y="250">3 · claude mcp add …</text><text x="838" y="272">4 · Start the bridge</text></g>
+  <text x="975" y="308" text-anchor="middle" font-size="12" fill="#ffd700">PRO MODE</text>
+
+  <rect width="1200" height="380" fill="url(#scans)"/>
+</svg>

@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 560" width="1200" height="560" font-family="'Courier New', monospace">
+  <defs>
+    <linearGradient id="bt" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0d0221"/><stop offset="1" stop-color="#160a30"/></linearGradient>
+    <filter id="tg" x="-40%" y="-40%" width="180%" height="180%"><feDropShadow dx="0" dy="0" stdDeviation="3" flood-color="#ffd700" flood-opacity="0.8"/></filter>
+    <pattern id="scant" width="4" height="4" patternUnits="userSpaceOnUse"><rect width="4" height="2" fill="#000" opacity="0.10"/></pattern>
+  </defs>
+  <rect width="1200" height="560" fill="url(#bt)"/>
+  <text x="600" y="42" text-anchor="middle" font-size="22" font-weight="bold" fill="#ffd700" letter-spacing="3" filter="url(#tg)">★ TOOL INVENTORY · 32 POWER-UPS ★</text>
+
+  <!-- Perception -->
+  <rect x="30" y="70" width="360" height="460" rx="14" fill="#0a0420" stroke="#00fff0" stroke-width="2.5"/>
+  <rect x="30" y="70" width="360" height="42" rx="14" fill="#00fff0" opacity="0.15"/>
+  <text x="210" y="98" text-anchor="middle" font-size="18" font-weight="bold" fill="#00fff0">👁  PERCEPTION · 7</text>
+  <g font-size="15" fill="#c9f7ff">
+    <text x="52" y="150">◆ editor_version</text>
+    <text x="52" y="182">◆ scene_info</text>
+    <text x="52" y="214">◆ find</text>
+    <text x="52" y="246">◆ get_object</text>
+    <text x="52" y="278">◆ query_assets</text>
+    <text x="52" y="310">◆ console_logs</text>
+    <text x="52" y="342">◆ screenshot</text>
+  </g>
+  <text x="210" y="500" text-anchor="middle" font-size="12" fill="#00fff0" opacity="0.8">read the world · self-check</text>
+
+  <!-- Authoring core -->
+  <rect x="410" y="70" width="380" height="460" rx="14" fill="#0a0420" stroke="#ff2e97" stroke-width="2.5"/>
+  <rect x="410" y="70" width="380" height="42" rx="14" fill="#ff2e97" opacity="0.15"/>
+  <text x="600" y="98" text-anchor="middle" font-size="18" font-weight="bold" fill="#ff6ec7">🔨  AUTHORING · 20</text>
+  <g font-size="13.5" fill="#ffd6ef">
+    <text x="430" y="146">◆ create_object   ◆ modify_object</text>
+    <text x="430" y="174">◆ delete_object   ◆ add_component</text>
+    <text x="430" y="202">◆ set_component   ◆ create_material</text>
+    <text x="430" y="230">◆ create_prefab   ◆ instantiate_prefab</text>
+    <text x="430" y="258">◆ create_script   ◆ set_lighting</text>
+    <text x="430" y="286">◆ create_scene    ◆ open_scene</text>
+    <text x="430" y="314">◆ save_scene      ◆ select</text>
+    <text x="430" y="342">◆ focus           ◆ execute_menu</text>
+    <text x="430" y="370">◆ undo            ◆ redo</text>
+    <text x="430" y="398">◆ play            ◆ stop</text>
+  </g>
+  <text x="600" y="500" text-anchor="middle" font-size="12" fill="#ff6ec7" opacity="0.8">build objects · scripts · scenes</text>
+
+  <!-- Phase 1 -->
+  <rect x="810" y="70" width="360" height="460" rx="14" fill="#0a0420" stroke="#39ff14" stroke-width="2.5"/>
+  <rect x="810" y="70" width="360" height="42" rx="14" fill="#39ff14" opacity="0.15"/>
+  <text x="990" y="98" text-anchor="middle" font-size="18" font-weight="bold" fill="#39ff14">⚡  PHASE 1 · 5</text>
+  <g font-size="15" fill="#d6ffcf">
+    <text x="832" y="150">◆ bake_navmesh</text>
+    <text x="832" y="182">◆ create_terrain</text>
+    <text x="832" y="214">◆ create_ui</text>
+    <text x="832" y="246">◆ add_audio</text>
+    <text x="832" y="278">◆ create_physics_material</text>
+  </g>
+  <rect x="832" y="300" width="316" height="150" rx="10" fill="#0d1f08" stroke="#39ff14" stroke-width="1.2" opacity="0.9"/>
+  <text x="990" y="326" text-anchor="middle" font-size="12" fill="#39ff14">NEW CAPABILITIES</text>
+  <g font-size="12" fill="#d6ffcf">
+    <text x="852" y="352">navmesh → pathfinding</text>
+    <text x="852" y="374">terrain → worlds</text>
+    <text x="852" y="396">ui → HUD / health bars</text>
+    <text x="852" y="418">audio → sound</text>
+    <text x="852" y="440">physics mat → bounce</text>
+  </g>
+
+  <rect width="1200" height="560" fill="url(#scant)"/>
+</svg>

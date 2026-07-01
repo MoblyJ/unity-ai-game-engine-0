@@ -1,3 +1,15 @@
+<p align="center">
+  <img src="assets/hero.svg" alt="Unity AI Game Engine" width="100%">
+</p>
+
+<p align="center">
+  <img alt="Unity" src="https://img.shields.io/badge/UNITY-6000.x-ff2e97?style=for-the-badge&logo=unity&logoColor=white">
+  <img alt="MCP tools" src="https://img.shields.io/badge/MCP-32_TOOLS-00fff0?style=for-the-badge">
+  <img alt="WSL2" src="https://img.shields.io/badge/WSL2-UBUNTU-39ff14?style=for-the-badge&logo=linux&logoColor=black">
+  <img alt="Claude Code" src="https://img.shields.io/badge/CLAUDE_CODE-BRAIN-7b2ff7?style=for-the-badge&logo=anthropic&logoColor=white">
+  <img alt="License" src="https://img.shields.io/badge/LICENSE-MIT-ffd700?style=for-the-badge">
+</p>
+
 # unity-ai-game-engine
 
 **Claude Code as a live Unity game developer.** You describe what you want in plain English —
@@ -31,6 +43,8 @@ server. It ships with a one-command **npm CLI**, a one-click **Windows setup exe
 
 ## What it does
 
+<img src="assets/banner-what.svg" alt="What it does" width="100%">
+
 - **Authoring, live in the Editor.** Create/modify objects, materials, prefabs, scenes, terrain, UI,
   lighting, audio, physics materials, and full C# scripts — while you watch, without pressing Play.
 - **Perception + self-correction.** Claude reads the scene hierarchy, inspects objects, reads the
@@ -43,6 +57,10 @@ server. It ships with a one-command **npm CLI**, a one-click **Windows setup exe
 ---
 
 ## Architecture
+
+<p align="center"><img src="assets/architecture.svg" alt="Architecture" width="100%"></p>
+
+<details><summary>Text version of the diagram</summary>
 
 ```
 ┌──────────────────────────────── WSL2 (Ubuntu) ─────────────────────────────────┐
@@ -72,6 +90,8 @@ server. It ships with a one-command **npm CLI**, a one-click **Windows setup exe
 └───────────────────────────────────────────────────────────────────────────────────┘
 ```
 
+</details>
+
 **Three processes, one loop:** Claude Code (WSL) reasons and calls tools → the Python MCP server
 (Windows) validates and relays them as symbolic ops → the C# bridge (inside Unity) executes them on
 the Editor's main thread and returns results. The LLM never touches Unity APIs directly; it only
@@ -80,6 +100,10 @@ emits ops from a fixed, validated vocabulary — safe, debuggable, and determini
 ---
 
 ## How a command flows
+
+<p align="center"><img src="assets/flow.svg" alt="Command flow" width="100%"></p>
+
+<details><summary>Text version of the diagram</summary>
 
 ```
 "create a red cube at origin"
@@ -101,6 +125,8 @@ AgentBridge (Unity):  background thread reads the line → enqueues it →
 Claude sees the result, optionally calls unity_screenshot to look at it, and reports back.
 ```
 
+</details>
+
 Envelope (both directions):
 
 ```
@@ -116,6 +142,8 @@ can read and retry, never a crash.
 
 ## Why this WSL ⇄ Windows split
 
+<img src="assets/banner-why.svg" alt="Why WSL/Windows" width="100%">
+
 Unity runs on Windows; Claude Code runs in WSL. WSL's `localhost` does **not** reach the Windows host
 by default (NAT networking). Instead of configuring networking, the **MCP server runs on Windows**,
 launched by Claude Code through WSL interop (`python.exe …`). Because that process is on Windows, it
@@ -128,6 +156,8 @@ The npm CLI and setup exe handle this automatically.
 ---
 
 ## Repository layout
+
+<img src="assets/banner-layout.svg" alt="Repository layout" width="100%">
 
 ```
 unity-ai-game-engine/
@@ -164,6 +194,8 @@ unity-ai-game-engine/
 ---
 
 ## Tool catalog (32)
+
+<p align="center"><img src="assets/tools.svg" alt="Tool catalog" width="100%"></p>
 
 **Read-only (perception)** — `readOnlyHint: true`
 | Tool | Purpose |
@@ -208,6 +240,8 @@ Every tool input is a Pydantic model with described, constrained fields, and car
 ---
 
 ## Setup
+
+<p align="center"><img src="assets/setup.svg" alt="Setup modes" width="100%"></p>
 
 Prerequisites: **WSL2 + Ubuntu**, **Windows Python 3.11+**, **Node 16+** (in WSL), and **Unity Hub +
 a Unity 6 (6000.x) Editor**. The CLI checks all of these for you.
@@ -256,6 +290,8 @@ project (adds uGUI) and injects the bridge**, launching Unity with the bridge li
 
 ## Using it
 
+<img src="assets/banner-usage.svg" alt="Using it" width="100%">
+
 Just ask — or invoke `/unity-build <request>` explicitly:
 
 - *"Check the editor version, then create a red cube at origin and screenshot it."*
@@ -271,6 +307,8 @@ to confirm the result — iterating until it matches your request.
 ---
 
 ## Verification
+
+<img src="assets/banner-verify.svg" alt="Verification" width="100%">
 
 **Without Unity** (proves the Python transport + framing + error handling):
 
@@ -288,6 +326,8 @@ cube appears in the Scene view and `unity_screenshot` returns the image.
 
 ## Roadmap
 
+<p align="center"><img src="assets/roadmap.svg" alt="Roadmap" width="100%"></p>
+
 See **[Integration-plan.md](Integration-plan.md)** for the full plan. Summary:
 
 | Phase | Adds | Status |
@@ -303,6 +343,8 @@ See **[Integration-plan.md](Integration-plan.md)** for the full plan. Summary:
 ---
 
 ## Troubleshooting
+
+<img src="assets/banner-trouble.svg" alt="Troubleshooting" width="100%">
 
 - **`⚠️ Cannot reach the Unity bridge`** — Unity isn't open, or the Agent Bridge window isn't Started,
   or the port differs. Confirm it shows `● LISTENING`.
@@ -320,6 +362,8 @@ See **[Integration-plan.md](Integration-plan.md)** for the full plan. Summary:
 ---
 
 ## Design notes & gotchas
+
+<img src="assets/banner-gotchas.svg" alt="Design notes and gotchas" width="100%">
 
 Hard-won lessons baked into the code (so they don't bite again):
 

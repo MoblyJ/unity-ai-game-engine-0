@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 92" width="1100" height="92" font-family="'Courier New', monospace">
+  <defs><linearGradient id="y2" x1="0" x2="1"><stop offset="0" stop-color="#0d0221"/><stop offset="1" stop-color="#2a0a2a"/></linearGradient>
+  <filter id="yg"><feDropShadow dx="0" dy="0" stdDeviation="3" flood-color="#ff2e97" flood-opacity="0.9"/></filter>
+  <pattern id="ys" width="4" height="4" patternUnits="userSpaceOnUse"><rect width="4" height="2" fill="#000" opacity="0.1"/></pattern></defs>
+  <rect width="1100" height="92" rx="12" fill="url(#y2)" stroke="#ff2e97" stroke-width="2"/>
+  <rect x="0" y="0" width="10" height="92" fill="#ff2e97"/>
+  <text x="44" y="58" font-size="28" font-weight="bold" fill="#ff6ec7" letter-spacing="2" filter="url(#yg)">🔌 WHY WSL ⇄ WINDOWS</text>
+  <text x="720" y="40" font-size="13" fill="#ffd6ef">server runs on Windows</text>
+  <text x="720" y="62" font-size="13" fill="#ffd6ef">127.0.0.1 shared · 0 net setup</text>
+  <rect width="1100" height="92" rx="12" fill="url(#ys)"/>
+</svg>

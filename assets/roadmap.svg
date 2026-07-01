@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 420" width="1200" height="420" font-family="'Courier New', monospace">
+  <defs>
+    <linearGradient id="br" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1a0033"/><stop offset="0.6" stop-color="#2a1150"/><stop offset="1" stop-color="#0d0221"/></linearGradient>
+    <filter id="rg" x="-50%" y="-50%" width="200%" height="200%"><feDropShadow dx="0" dy="0" stdDeviation="3" flood-color="#39ff14" flood-opacity="0.9"/></filter>
+    <filter id="rgm" x="-50%" y="-50%" width="200%" height="200%"><feDropShadow dx="0" dy="0" stdDeviation="3" flood-color="#ffd700" flood-opacity="0.8"/></filter>
+    <pattern id="scanr" width="4" height="4" patternUnits="userSpaceOnUse"><rect width="4" height="2" fill="#000" opacity="0.10"/></pattern>
+  </defs>
+  <rect width="1200" height="420" fill="url(#br)"/>
+  <text x="600" y="44" text-anchor="middle" font-size="22" font-weight="bold" fill="#ffd700" letter-spacing="3" filter="url(#rgm)">◄ WORLD MAP · ROAD TO A FULL AI GAME BUILDER ►</text>
+
+  <!-- winding path -->
+  <path d="M90,300 L300,300 L300,180 L510,180 L510,300 L720,300 L720,180 L930,180 L930,300 L1110,300"
+        fill="none" stroke="#7b2ff7" stroke-width="8" opacity="0.5" stroke-linecap="round"/>
+  <path d="M90,300 L300,300 L300,180 L510,180 L510,300 L720,300 L720,180 L930,180 L930,300 L1110,300"
+        fill="none" stroke="#00fff0" stroke-width="2" stroke-dasharray="6 10" opacity="0.8"/>
+
+  <!-- nodes: [x,y,label,sub,done] -->
+  <!-- P0 done -->
+  <circle cx="90" cy="300" r="34" fill="#0d1f08" stroke="#39ff14" stroke-width="4" filter="url(#rg)"/>
+  <text x="90" y="292" text-anchor="middle" font-size="22" font-weight="bold" fill="#39ff14">0</text>
+  <text x="90" y="314" text-anchor="middle" font-size="16" fill="#39ff14">✓</text>
+  <text x="90" y="356" text-anchor="middle" font-size="12" fill="#baffb0">bridge</text>
+
+  <!-- P1 done -->
+  <circle cx="300" cy="300" r="34" fill="#0d1f08" stroke="#39ff14" stroke-width="4" filter="url(#rg)"/>
+  <text x="300" y="292" text-anchor="middle" font-size="22" font-weight="bold" fill="#39ff14">1</text>
+  <text x="300" y="314" text-anchor="middle" font-size="16" fill="#39ff14">✓</text>
+  <text x="300" y="150" text-anchor="middle" font-size="12" fill="#baffb0">navmesh·terrain·ui·audio</text>
+
+  <!-- P2 -->
+  <circle cx="510" cy="180" r="34" fill="#160a30" stroke="#ff6ec7" stroke-width="3"/>
+  <text x="510" y="188" text-anchor="middle" font-size="22" font-weight="bold" fill="#ff6ec7">2</text>
+  <text x="510" y="240" text-anchor="middle" font-size="12" fill="#ffd6ef">NPC brains + movement</text>
+
+  <!-- P3 -->
+  <circle cx="720" cy="300" r="34" fill="#160a30" stroke="#00fff0" stroke-width="3"/>
+  <text x="720" y="308" text-anchor="middle" font-size="22" font-weight="bold" fill="#00fff0">3</text>
+  <text x="720" y="150" text-anchor="middle" font-size="12" fill="#c9f7ff">smarter AI · GOAP/ML</text>
+
+  <!-- P4 -->
+  <circle cx="930" cy="180" r="34" fill="#160a30" stroke="#ffd700" stroke-width="3"/>
+  <text x="930" y="188" text-anchor="middle" font-size="22" font-weight="bold" fill="#ffd700">4</text>
+  <text x="930" y="240" text-anchor="middle" font-size="12" fill="#ffe98a">text → art / 3D</text>
+
+  <!-- P5 -->
+  <circle cx="1050" cy="300" r="30" fill="#160a30" stroke="#7b2ff7" stroke-width="3"/>
+  <text x="1050" y="308" text-anchor="middle" font-size="20" font-weight="bold" fill="#b085ff">5</text>
+  <text x="1050" y="352" text-anchor="middle" font-size="11" fill="#d3c4ff">net + scale</text>
+
+  <!-- P6 flag -->
+  <circle cx="1140" cy="300" r="24" fill="#22061a" stroke="#ff2e97" stroke-width="3"/>
+  <text x="1140" y="307" text-anchor="middle" font-size="16" font-weight="bold" fill="#ff2e97">6</text>
+  <path d="M1140,276 L1140,250 L1166,258 L1140,266" fill="#ff2e97"/>
+  <text x="1140" y="352" text-anchor="middle" font-size="11" fill="#ffc7e6">FULL GAME</text>
+
+  <!-- legend -->
+  <rect x="40" y="384" width="200" height="26" rx="13" fill="#0d1f08" stroke="#39ff14" stroke-width="1"/>
+  <text x="140" y="401" text-anchor="middle" font-size="12" fill="#39ff14">✓ CLEARED = shipped</text>
+  <rect x="260" y="384" width="230" height="26" rx="13" fill="#160a30" stroke="#7b2ff7" stroke-width="1"/>
+  <text x="375" y="401" text-anchor="middle" font-size="12" fill="#b085ff">◇ dim = planned levels</text>
+
+  <rect width="1200" height="420" fill="url(#scanr)"/>
+</svg>

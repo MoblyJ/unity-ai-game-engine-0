@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 92" width="1100" height="92" font-family="'Courier New', monospace">
+  <defs><linearGradient id="l2" x1="0" x2="1"><stop offset="0" stop-color="#0d0221"/><stop offset="1" stop-color="#1a0a3a"/></linearGradient>
+  <filter id="lg"><feDropShadow dx="0" dy="0" stdDeviation="3" flood-color="#7b2ff7" flood-opacity="0.9"/></filter>
+  <pattern id="ls" width="4" height="4" patternUnits="userSpaceOnUse"><rect width="4" height="2" fill="#000" opacity="0.1"/></pattern></defs>
+  <rect width="1100" height="92" rx="12" fill="url(#l2)" stroke="#7b2ff7" stroke-width="2"/>
+  <rect x="0" y="0" width="10" height="92" fill="#7b2ff7"/>
+  <text x="44" y="58" font-size="28" font-weight="bold" fill="#b085ff" letter-spacing="2" filter="url(#lg)">📁 REPOSITORY LAYOUT</text>
+  <text x="720" y="40" font-size="13" fill="#d3c4ff">bin · server · unity · setup</text>
+  <text x="720" y="62" font-size="13" fill="#d3c4ff">scripts · skills</text>
+  <rect width="1100" height="92" rx="12" fill="url(#ls)"/>
+</svg>

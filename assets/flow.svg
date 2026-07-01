@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 340" width="1200" height="340" font-family="'Courier New', monospace">
+  <defs>
+    <linearGradient id="bg3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0d0221"/><stop offset="1" stop-color="#170a33"/></linearGradient>
+    <marker id="arr2" markerWidth="12" markerHeight="12" refX="8" refY="6" orient="auto"><path d="M1,1 L10,6 L1,11 Z" fill="#ffd700"/></marker>
+    <marker id="arrb" markerWidth="12" markerHeight="12" refX="8" refY="6" orient="auto"><path d="M1,1 L10,6 L1,11 Z" fill="#00fff0"/></marker>
+    <filter id="gy" x="-40%" y="-40%" width="180%" height="180%"><feDropShadow dx="0" dy="0" stdDeviation="3" flood-color="#ffd700" flood-opacity="0.8"/></filter>
+    <pattern id="scan3" width="4" height="4" patternUnits="userSpaceOnUse"><rect width="4" height="2" fill="#000" opacity="0.10"/></pattern>
+  </defs>
+  <rect width="1200" height="340" fill="url(#bg3)"/>
+  <text x="600" y="40" text-anchor="middle" font-size="20" font-weight="bold" fill="#ffd700" letter-spacing="3" filter="url(#gy)">◄ HOW A COMMAND FLOWS ►</text>
+
+  <!-- 5 stages -->
+  <g>
+    <!-- stage template: circle number + label box -->
+    <!-- 1 -->
+    <circle cx="120" cy="140" r="30" fill="#1a0033" stroke="#ff2e97" stroke-width="3"/>
+    <text x="120" y="150" text-anchor="middle" font-size="26" font-weight="bold" fill="#ff2e97">1</text>
+    <text x="120" y="200" text-anchor="middle" font-size="13" font-weight="bold" fill="#ff6ec7">PROMPT</text>
+    <text x="120" y="220" text-anchor="middle" font-size="10" fill="#c9c9ff">"red cube"</text>
+
+    <line x1="152" y1="140" x2="216" y2="140" stroke="#ffd700" stroke-width="3" marker-end="url(#arr2)"/>
+
+    <!-- 2 -->
+    <circle cx="250" cy="140" r="30" fill="#1a0033" stroke="#00fff0" stroke-width="3"/>
+    <text x="250" y="150" text-anchor="middle" font-size="26" font-weight="bold" fill="#00fff0">2</text>
+    <text x="250" y="200" text-anchor="middle" font-size="13" font-weight="bold" fill="#00fff0">CLAUDE</text>
+    <text x="250" y="220" text-anchor="middle" font-size="10" fill="#c9c9ff">picks tool</text>
+
+    <line x1="282" y1="140" x2="346" y2="140" stroke="#ffd700" stroke-width="3" marker-end="url(#arr2)"/>
+
+    <!-- 3 -->
+    <circle cx="380" cy="140" r="30" fill="#1a0033" stroke="#7b2ff7" stroke-width="3"/>
+    <text x="380" y="150" text-anchor="middle" font-size="26" font-weight="bold" fill="#b085ff">3</text>
+    <text x="380" y="200" text-anchor="middle" font-size="13" font-weight="bold" fill="#b085ff">MCP</text>
+    <text x="380" y="220" text-anchor="middle" font-size="10" fill="#c9c9ff">validate→JSON</text>
+
+    <line x1="412" y1="140" x2="476" y2="140" stroke="#ffd700" stroke-width="3" marker-end="url(#arr2)"/>
+
+    <!-- 4 -->
+    <circle cx="510" cy="140" r="30" fill="#1a0033" stroke="#39ff14" stroke-width="3"/>
+    <text x="510" y="150" text-anchor="middle" font-size="26" font-weight="bold" fill="#39ff14">4</text>
+    <text x="510" y="200" text-anchor="middle" font-size="13" font-weight="bold" fill="#39ff14">BRIDGE</text>
+    <text x="510" y="220" text-anchor="middle" font-size="10" fill="#c9c9ff">main-thread</text>
+
+    <line x1="542" y1="140" x2="606" y2="140" stroke="#ffd700" stroke-width="3" marker-end="url(#arr2)"/>
+
+    <!-- 5 -->
+    <circle cx="640" cy="140" r="30" fill="#1a0033" stroke="#ff2e97" stroke-width="3"/>
+    <text x="640" y="150" text-anchor="middle" font-size="26" font-weight="bold" fill="#ff2e97">5</text>
+    <text x="640" y="200" text-anchor="middle" font-size="13" font-weight="bold" fill="#ff6ec7">UNITY</text>
+    <text x="640" y="220" text-anchor="middle" font-size="10" fill="#c9c9ff">builds it!</text>
+  </g>
+
+  <!-- result loop back -->
+  <path d="M640,110 C640,70 250,60 250,108" fill="none" stroke="#00fff0" stroke-width="2.5" stroke-dasharray="7 5" marker-end="url(#arrb)"/>
+  <text x="445" y="66" text-anchor="middle" font-size="11" fill="#00fff0">◀ result + screenshot: Claude sees it &amp; self-corrects</text>
+
+  <!-- envelope panel -->
+  <rect x="720" y="86" width="450" height="120" rx="10" fill="#0a0420" stroke="#ffd700" stroke-width="2"/>
+  <text x="740" y="112" font-size="12" fill="#ffd700" font-weight="bold">ENVELOPE</text>
+  <text x="740" y="138" font-size="12" fill="#39ff14">→ { id, op, args }</text>
+  <text x="740" y="162" font-size="12" fill="#00fff0">← { id, ok:true, data }</text>
+  <text x="740" y="186" font-size="12" fill="#ff6ec7">← { id, ok:false, error } · fail-soft</text>
+
+  <rect width="1200" height="340" fill="url(#scan3)"/>
+</svg>
