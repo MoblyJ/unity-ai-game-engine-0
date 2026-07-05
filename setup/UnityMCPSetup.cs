@@ -27,14 +27,16 @@ static class UnityMCPSetup
 
     static string _distro = DefaultDistro;
     static string _source = DefaultSource;
+    static bool _sourceProvided = false;
 
     static int Main(string[] args)
     {
         for (int i = 0; i < args.Length - 1; i++)
         {
-            if (args[i] == "--source") _source = args[i + 1];
+            if (args[i] == "--source") { _source = args[i + 1]; _sourceProvided = true; }
             if (args[i] == "--distro") _distro = args[i + 1];
         }
+        if (!_sourceProvided) AutoDetectSource();
 
         Banner();
         try
@@ -54,6 +56,36 @@ static class UnityMCPSetup
         }
         Pause();
         return 0;
+    }
+
+    // ---- Auto-detect the package path inside WSL (standalone double-click) --------------------
+
+    static void AutoDetectSource()
+    {
+        // 1) path recorded by `unity-mcp-bridge connect` / setup
+        if (UseIfValid(WslCap("cat ~/.unity-mcp-source 2>/dev/null"))) return;
+        // 2) the globally-installed npm package
+        if (UseIfValid(WslCap("wslpath -w $(npm root -g)/unity-ai-game-engine 2>/dev/null"))) return;
+        // 3) a source checkout in the home dir
+        UseIfValid(WslCap("wslpath -w $HOME/unity-mcp 2>/dev/null"));
+    }
+
+    static string WslCap(string bashCmd)
+    {
+        int code;
+        string outp = Run("wsl.exe", "bash -lc \"" + bashCmd + "\"", out code);
+        return (outp == null) ? "" : outp.Trim();
+    }
+
+    static bool UseIfValid(string unc)
+    {
+        if (string.IsNullOrEmpty(unc) || !unc.StartsWith(@"\\")) return false;
+        try { if (!Directory.Exists(Path.Combine(unc, "server"))) return false; }
+        catch { return false; }
+        _source = unc;
+        string[] parts = unc.Split('\\');   // \\wsl.localhost\<distro>\...
+        if (parts.Length > 3 && parts[3].Length > 0) _distro = parts[3];
+        return true;
     }
 
     // ---- Step 1: Python -----------------------------------------------------
@@ -88,7 +120,10 @@ static class UnityMCPSetup
         Head("2/6  Staging MCP server to your Windows profile");
         string srcServer = Path.Combine(_source, "server");
         if (!Directory.Exists(srcServer))
-            throw new Exception("Cannot read server source at '" + srcServer + "'. Is WSL running? Pass --source <path> if your repo is elsewhere.");
+            throw new Exception("Cannot read server source at '" + srcServer + "'.\n" +
+                "   Easiest fix: run the setup from WSL instead ->  unity-mcp-bridge setup\n" +
+                "   (it auto-detects your package path + distro and passes them in),\n" +
+                "   or pass --source <\\\\wsl.localhost\\...\\unity-ai-game-engine> manually.");
 
         string dest = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "unity-mcp", "server");
         CopyDir(srcServer, dest, "__pycache__");

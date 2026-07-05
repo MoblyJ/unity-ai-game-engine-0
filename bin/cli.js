@@ -18,6 +18,7 @@
  */
 const fs = require('fs');
 const path = require('path');
+const os = require('os');
 const { execSync, spawnSync } = require('child_process');
 
 const ROOT = path.resolve(__dirname, '..');
@@ -119,14 +120,27 @@ function build() {
 
 function run() {
   if (!fs.existsSync(EXE)) build();
-  const source = toWinPath(ROOT); // \\wsl.localhost\<distro>\...  (this package's files)
-  const distro = process.env.WSL_DISTRO_NAME || 'Ubuntu';
-  if (!source) throw new Error('Could not resolve a Windows path for this package (is wslpath available?).');
-  console.log(C.c(`\nLaunching setup exe (source: ${source}) ...\n`));
-  const r = spawnSync(EXE, ['--source', source, '--distro', distro], {
-    cwd: '/mnt/c', // give the Windows process a real C:\ cwd so it can read the \\wsl.localhost source
-    stdio: 'inherit',
-  });
+
+  // Auto-detect the real paths on THIS machine via OS commands (wslpath / env) — works on any PC.
+  const sourceWin = toWinPath(ROOT); // \\wsl.localhost\<distro>\...\<package>  (wslpath -w)
+  const exeWin = toWinPath(EXE);
+  if (!sourceWin || !exeWin) throw new Error('Could not resolve Windows paths (is wslpath available?).');
+  const distro = process.env.WSL_DISTRO_NAME || sourceWin.split('\\')[3] || 'Ubuntu';
+
+  // Record the source so a standalone double-click of the exe can find this install too.
+  try { fs.writeFileSync(path.join(os.homedir(), '.unity-mcp-source'), sourceWin + '\n'); } catch (e) { /* non-fatal */ }
+
+  console.log(C.b('\n  Detected (via OS commands):'));
+  console.log('    ' + C.c('package ') + sourceWin);
+  console.log('    ' + C.c('exe     ') + exeWin);
+  console.log('    ' + C.c('distro  ') + distro);
+  console.log(C.c('\n  Launching the Windows setup through PowerShell ...\n'));
+
+  // Launch the exe from WSL by calling PowerShell: Start-Process opens its own console, -Wait blocks.
+  const ps =
+    "Start-Process -FilePath '" + exeWin + "' -ArgumentList '--source','" + sourceWin +
+    "','--distro','" + distro + "' -Wait";
+  const r = spawnSync('powershell.exe', ['-NoProfile', '-Command', ps], { cwd: '/mnt/c', stdio: 'inherit' });
   return r.status || 0;
 }
 

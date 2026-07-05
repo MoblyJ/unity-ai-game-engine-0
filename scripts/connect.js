@@ -209,6 +209,15 @@ function connect() {
     warn('exe copy failed: ' + e.message);
   }
 
+  // Record the package path so a standalone run of UnityMCPSetup.exe can auto-find this install.
+  try {
+    const srcWin = wslToWin(ROOT);
+    if (srcWin) {
+      fs.writeFileSync(path.join(os.homedir(), '.unity-mcp-source'), srcWin + '\n');
+      ok('Recorded package path → ' + C.c('~/.unity-mcp-source'));
+    }
+  } catch (e) { /* non-fatal */ }
+
   const hasClaude = sh('command -v claude');
   const hasWinPy = sh('python.exe --version');
 
