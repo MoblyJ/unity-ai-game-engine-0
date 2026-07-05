@@ -34,6 +34,8 @@ server. It ships with a one-command **npm CLI**, a one-click **Windows setup exe
 - [Setup](#setup)
 - [Using it](#using-it)
 - [Verification](#verification)
+- [Skill library (the memory map)](#skill-library-the-memory-map)
+- [Agent-to-agent workflow — build a full game](#agent-to-agent-workflow--build-a-full-game)
 - [Roadmap](#roadmap)
 - [Troubleshooting](#troubleshooting)
 - [Design notes & gotchas](#design-notes--gotchas)
@@ -353,44 +355,75 @@ cube appears in the Scene view and `unity_screenshot` returns the image.
 
 ---
 
-## Game-builder skill library (memory map)
+## Skill library (the memory map)
 
-Beyond the 32 low-level tools, the package ships a **skill library** in `.claude/skills/` that turns the
-13 studied open-source engines in `repo/` into reusable, token-efficient recipes — so Claude builds any
-game from *verified patterns* instead of guessing, and without loading whole repos into context.
+Beyond the 32 low-level tools, the package ships **10 skills** in `.claude/skills/` that distil the 13
+studied open-source engines in `repo/` into reusable, token-efficient recipes — so Claude builds any game
+from *verified patterns* instead of guessing, and without loading whole repos into context. Skills
+auto-load into Claude Code and also import into the **engine-ai** registry
+(`import_repo_skills(".claude/skills")`).
 
-- **`unity-game-builder`** — the master router / memory map: feature → capability skill → `repo/` tool →
-  a grounded `search_repo` query. Start here for anything bigger than primitives.
-- Capability skills: **`unity-npc-behavior`** (Fluid BT + NPBehave), **`unity-npc-goap`** (GOAP planning),
-  **`unity-npc-movement`** (steering), **`unity-multiplayer`** (Netcode), **`unity-ecs-performance`**
-  (DOTS), **`unity-ml-agents`** (RL), **`unity-api-lookup`** (verify APIs against `UnityCsReference`),
-  **`unity-subsystems`** (find pooling/save/procgen/… in the curated indexes).
+| Skill | Role — what it does | Backing repo(s) in `repo/` | Install / license |
+|---|---|---|---|
+| **`unity-game-builder`** | **Master router / memory map.** Decomposes any game request and routes each feature → the right capability skill → the proven repo → a grounded `search_repo` query. Start here for anything bigger than primitives. | all of the below | — |
+| **`unity-build`** | Build tangible things live: objects, materials, lighting, terrain, UI, and gameplay C#. The research → build → screenshot-verify loop. | `UnityCsReference` | — |
+| **`unity-npc-behavior`** | NPC decision brains with **behavior trees** — patrol/chase/attack, states, reactions. | `fluid-behavior-tree`, `NPBehave` | copy folder / scoped UPM · MIT |
+| **`unity-npc-goap`** | **Goal-oriented action planning** — declare goals + actions, the planner chains steps (gather→craft→eat). | `GOAP` | UPM git URL · Apache-2.0 |
+| **`unity-npc-movement`** | **Steering/locomotion** — seek, flee, wander, pursue, flocking, obstacle & wall avoidance, path follow. | `unity-movement-ai` | copy `Scripts/` · MIT |
+| **`unity-multiplayer`** | **Netcode for GameObjects** — synced state, RPCs, networked spawning (co-op, online 1v1). | `com.unity.netcode.gameobjects` | UPM · Unity Companion |
+| **`unity-ecs-performance`** | **DOTS/ECS/Burst** for thousands of entities; recommends object pooling for lighter cases. | `EntityComponentSystemSamples` | UPM · Unity Companion |
+| **`unity-ml-agents`** | **Reinforcement-learning** NPC scaffolding + the Python training handoff. | `ml-agents` | UPM + `pip mlagents` · Apache-2.0 |
+| **`unity-api-lookup`** | Verify the **exact current Unity 6 API** (signatures, enums, obsolete-as-error) before writing C#. | `UnityCsReference` | reference-only (never ship) |
+| **`unity-subsystems`** | Find a proven **niche subsystem** (pooling, save, inventory, procgen, dialogue) in the curated indexes. | `awesome-unity3d`, `AwesomeUnityCommunity`, `ai-game-devtools` | varies |
 
-**Grounded memory:** the small gameplay repos (`NPBehave`, `fluid-behavior-tree`, `unity-movement-ai`,
-`GOAP`) are indexed with the **engine-ai** MCP (`index_repo`), so a skill can pull the *exact* current
-API with `search_repo(path, query)` on demand rather than reloading source. Import the skills into
-engine-ai's registry with `import_repo_skills(".claude/skills")`. Each skill is license-aware (MIT/Apache
-→ copyable; Unity Companion → UPM; `UnityCsReference` → reference-only).
+**Grounded memory (efficient by design):** the small gameplay repos (`NPBehave`, `fluid-behavior-tree`,
+`unity-movement-ai`, `GOAP`) are indexed with `index_repo`, so a skill pulls the *exact* current API via
+`search_repo(path, query)` on demand instead of reloading source. Large repos index on demand or via a
+targeted `grep`. Every skill is license-aware: MIT/Apache → copyable into the project; Unity Companion →
+install via UPM; `UnityCsReference` → read to verify, never copy/ship.
 
-### Agent-to-agent workflow (build a full game)
+## Agent-to-agent workflow — build a full game
 
-The package also ships **12 Claude Code sub-agents** in `.claude/agents/` (visible under `/agents`), an
-agent-to-agent team modeled on Google ADK's multi-agent patterns (Coordinator/Dispatcher + Sequential /
-Parallel / Loop) and the Claude Agent SDK's per-agent system-prompt + tool-scope model:
+The package ships **12 Claude Code sub-agents** in `.claude/agents/` (they appear under **`/agents`** after a
+Claude Code reload). It's a team modeled on **Google ADK** multi-agent patterns (Coordinator/Dispatcher +
+Sequential / Parallel / Loop, generator–critic) and the **Claude Agent SDK** per-agent system-prompt +
+tool-scope model. Each agent defers implementation detail to its matching skill, so the director hands out
+*features + acceptance tests*, not code.
 
-- **`game-director`** — the Coordinator: decomposes a game prompt, delegates each feature to a specialist
-  (via the Task tool), fans out independent work in parallel, and loops **build → playtest → fix** until it
-  works.
-- **`game-designer`** → build plan · **`unity-scene-builder`** → arena/player/UI/scripts ·
-  **`npc-brain-engineer`** → behavior-tree/GOAP AI · **`movement-engineer`** → steering ·
-  **`multiplayer-engineer`** → Netcode · **`performance-engineer`** → DOTS/pooling ·
-  **`ml-agents-engineer`** → RL scaffolding.
-- Read-only support: **`unity-api-verifier`** (grep `UnityCsReference`) · **`subsystems-scout`** (search the
-  awesome-* indexes) · **`game-research-agent`** (web) · **`unity-playtester`** (the generator-critic —
-  drives input in Play mode and reports PASS/FAIL).
+**Orchestrator**
 
-Each agent knows its matching skill + `repo/` tool, so the director hands out *features + acceptance tests*,
-not implementation detail. Kick it off with e.g. *"use game-director to build a 1v1 FPV fighting game."*
+| Agent | Role | Model | Tools |
+|---|---|---|---|
+| **`game-director`** | The **Coordinator**. Decomposes a game prompt into features, delegates each to a specialist (via the Task tool), fans out independent work in **parallel**, then loops **build → playtest → fix** until the playtester confirms it works. | inherit (Opus) | all + Task |
+
+**Design & build specialists**
+
+| Agent | Role | Model | Tools |
+|---|---|---|---|
+| **`game-designer`** | Turns the prompt into a concrete **build plan**: core loop, feature→owner table, build order, scope call. Plans only — never builds. | inherit | all |
+| **`unity-scene-builder`** | The **hands**: arena/level, player, props, materials, lighting, terrain, UI/HUD, and gameplay C# via the `unity_*` tools. Exposes hooks (Player tag, spawn points) for the AI specialists. | sonnet | all (incl. `unity_*`) |
+| **`npc-brain-engineer`** | Enemy/NPC **decision-making** — behavior trees (`unity-npc-behavior`) or GOAP (`unity-npc-goap`). Writes + wires the brain; pairs with the movement engineer. | sonnet | all |
+| **`movement-engineer`** | NPC **locomotion** — steering behaviors (`unity-npc-movement`) or NavMesh. The "legs" under a brain. | sonnet | all |
+| **`multiplayer-engineer`** | **Networked play** with Netcode — NetworkManager, `NetworkVariable`, RPCs, spawning. Only when the prompt wants online. | sonnet | all |
+| **`performance-engineer`** | **Scale** — DOTS/ECS for thousands of entities, or recommends object pooling for lighter cases. | sonnet | all |
+| **`ml-agents-engineer`** | **Learned behavior** — scaffolds an ML-Agents `Agent` + components + config, then hands off the Python training loop. | sonnet | all |
+
+**Read-only support & verification**
+
+| Agent | Role | Model | Tools |
+|---|---|---|---|
+| **`unity-api-verifier`** | Confirms the **exact Unity 6 API** by grepping `repo/UnityCsReference` before any C# is written; flags obsolete-as-error members. | sonnet | Bash, Read, Grep, Glob |
+| **`subsystems-scout`** | Finds a **proven niche system** (pooling, save, inventory, procgen…) by searching the curated `awesome-*` indexes. | sonnet | Bash, Read, Grep, Glob |
+| **`game-research-agent`** | **Web-researches** the latest, non-deprecated Unity technique when local repos aren't enough. | sonnet | WebSearch, WebFetch, Read, Bash, Grep, Glob |
+| **`unity-playtester`** | The **critic** in the generator–critic loop: enters Play mode, drives real input (keys/mouse), samples telemetry + screenshots, and reports **PASS/FAIL** per acceptance test. | sonnet | all (incl. `unity_*`) |
+
+**Run it:** *"use game-director to build a 1v1 FPV fighting game."* The director calls `game-designer` for
+the plan, `unity-scene-builder` for the foundation, fans out `npc-brain-engineer` + `movement-engineer`,
+then loops with `unity-playtester` until it passes.
+
+> **Note:** custom agents (like MCP servers) load at Claude Code **startup** — after installing/updating,
+> reload Claude Code (`/agents` or restart) before delegating to them. Until then the orchestration can be
+> driven from the main session using the Task tool.
 
 ---
 
