@@ -248,13 +248,17 @@ Every tool input is a Pydantic model with described, constrained fields, and car
 Prerequisites: **WSL2 + Ubuntu**, **Windows Python 3.11+**, **Node 16+** (in WSL), and **Unity Hub +
 a Unity 6 (6000.x) Editor**. The CLI checks all of these for you.
 
-### Option A — npm (install from git, auto-connects)
+### Option A — npm (auto-connects)
 
-Install straight from the repo so you can pull new features later with `npm update`. From **WSL**:
+From **WSL**, install from the npm registry (simplest) **or** straight from git:
 
 ```bash
+npm install -g unity-ai-game-engine                      # from npm registry
+# or, to track the latest commits directly:
 npm install -g github:MoblyJ/unity-ai-game-engine-0#main
 ```
+
+The CLI is `unity-mcp-bridge` (and `unity-mcp`) regardless of which you use.
 
 On install, a **postinstall** step runs automatically and:
 
@@ -286,13 +290,13 @@ Each FAIL comes with the exact fix; on a fresh machine the usual failures are *W
 
 ### Updating (get new features)
 
-Because it's installed from git, pushing changes to the repo lets any host pull them:
-
 ```bash
-npm update -g unity-mcp-bridge      # re-runs postinstall: re-stages server, refreshes exe + bridge, re-registers
-# (or reinstall to force the latest commit:)
+npm update -g unity-ai-game-engine    # registry install
+# git install: reinstall to force the latest commit:
 npm install -g github:MoblyJ/unity-ai-game-engine-0#main
 ```
+Either re-runs the postinstall — re-stages the server, refreshes the exe + linked-project bridge, and
+re-registers the MCP.
 
 The update re-stages the **server** and **exe** automatically. To also refresh the in-project **C# bridge**
 on every update, link your project once:
