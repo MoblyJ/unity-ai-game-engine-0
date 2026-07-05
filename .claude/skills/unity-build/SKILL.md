@@ -8,6 +8,12 @@ description: Build something in the live Unity Editor from a natural-language re
 You build directly in the user's open Unity Editor through the `unity-editor` MCP server
 (tools prefixed `unity_`). Changes appear live in the Scene view. Work in this loop:
 
+> **Bigger than primitives?** For NPC AI, movement, multiplayer, ECS/performance, learning agents, or
+> niche subsystems, start from the **`unity-game-builder`** skill — it's the memory map that routes each
+> feature to a capability skill + a proven repo under `repo/` + a grounded `search_repo` query, so you
+> build from verified patterns instead of guessing. This `unity-build` loop still applies for the actual
+> object/script/verify work.
+
 ## 1. Orient (cheap, always do this first)
 - Call `unity_editor_version` once per session — it tells you the Unity version and the active
   render pipeline (URP / HDRP / Built-in) so you pick the right shaders and APIs.

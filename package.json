@@ -1,6 +1,6 @@
 {
   "name": "unity-mcp-bridge",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Bridge Claude Code (in WSL) to the Unity Editor on Windows: checks Unity, stages an MCP server, registers it with Claude Code, and wires up the live Editor bridge.",
   "bin": {
     "unity-mcp-bridge": "bin/cli.js",
@@ -8,7 +8,9 @@
   },
   "scripts": {
     "check": "node bin/cli.js check",
-    "setup": "node bin/cli.js setup"
+    "setup": "node bin/cli.js setup",
+    "connect": "node bin/cli.js connect",
+    "postinstall": "node scripts/postinstall.js"
   },
   "files": [
     "assets/",
@@ -20,9 +22,18 @@
     "setup/build_exe.sh",
     "scripts/",
     ".claude/skills/",
+    ".claude/agents/",
     "Integration-plan.md",
     "prompt.md"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MoblyJ/unity-ai-game-engine-0.git"
+  },
+  "homepage": "https://github.com/MoblyJ/unity-ai-game-engine-0#readme",
+  "bugs": {
+    "url": "https://github.com/MoblyJ/unity-ai-game-engine-0/issues"
+  },
   "engines": {
     "node": ">=16"
   },

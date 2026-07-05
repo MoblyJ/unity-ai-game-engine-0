@@ -246,18 +246,47 @@ Every tool input is a Pydantic model with described, constrained fields, and car
 Prerequisites: **WSL2 + Ubuntu**, **Windows Python 3.11+**, **Node 16+** (in WSL), and **Unity Hub +
 a Unity 6 (6000.x) Editor**. The CLI checks all of these for you.
 
-### Option A — npm CLI (one command)
+### Option A — npm (install from git, auto-connects)
 
-From **WSL**:
+Install straight from the repo so you can pull new features later with `npm update`. From **WSL**:
 
 ```bash
-npm install -g .            # from a checkout of this repo (or: npm link)
-unity-mcp-bridge check      # detect WSL, Windows Python, Unity Hub + Editors, Claude CLI
-unity-mcp-bridge            # setup: check → ensure the exe → run it to wire everything up
+npm install -g github:MoblyJ/unity-ai-game-engine-0#main
 ```
 
-Commands: `check` (detect, no changes) · `build` (compile the setup exe) · `setup` (default) ·
-`run` · `help`.
+On install, a **postinstall** step runs automatically and:
+
+- **Registers the MCP server with Claude Code** (`unity-editor`, user scope) — no manual `claude mcp add`.
+- Stages the server to `%USERPROFILE%\unity-mcp\server` and installs `mcp` + `pydantic` on Windows Python.
+- Drops **`~/UnityMCPSetup.exe`** in your WSL home — copy it to Windows and run it to wire up the Unity side.
+
+Then **reload Claude Code** (`/mcp`) so the `unity_*` tools load.
+
+Commands: `check` · `connect` (re-run the auto-connect) · `link <projectPath>` (remember a Unity project
+so updates refresh its bridge) · `build` · `setup` · `run` · `help`.
+
+> The repo must be **public** (or use a git token) for other machines to `npm install` it.
+> Opt out of the auto-connect with `UNITY_MCP_NO_POSTINSTALL=1`; override scope with `UNITY_MCP_SCOPE=local|project|user`.
+
+### Updating (get new features)
+
+Because it's installed from git, pushing changes to the repo lets any host pull them:
+
+```bash
+npm update -g unity-mcp-bridge      # re-runs postinstall: re-stages server, refreshes exe + bridge, re-registers
+# (or reinstall to force the latest commit:)
+npm install -g github:MoblyJ/unity-ai-game-engine-0#main
+```
+
+The update re-stages the **server** and **exe** automatically. To also refresh the in-project **C# bridge**
+on every update, link your project once:
+
+```bash
+unity-mcp-bridge link "C:\Users\<you>\ClaudeGame"
+```
+
+Then restart Unity after an update so it recompiles the new bridge. (Bump `version` in `package.json`
+on each change so `npm outdated`/semver installs see the new release.)
 
 ### Option B — Windows setup exe
 
@@ -321,6 +350,47 @@ npx @modelcontextprotocol/inspector python server/unity_editor_mcp.py   # lists 
 **With Unity** (end-to-end): open the project + Start the bridge, then from WSL
 `python scripts/smoke_test.py` returns real scene JSON. In Claude Code, *"create a red cube"* → the
 cube appears in the Scene view and `unity_screenshot` returns the image.
+
+---
+
+## Game-builder skill library (memory map)
+
+Beyond the 32 low-level tools, the package ships a **skill library** in `.claude/skills/` that turns the
+13 studied open-source engines in `repo/` into reusable, token-efficient recipes — so Claude builds any
+game from *verified patterns* instead of guessing, and without loading whole repos into context.
+
+- **`unity-game-builder`** — the master router / memory map: feature → capability skill → `repo/` tool →
+  a grounded `search_repo` query. Start here for anything bigger than primitives.
+- Capability skills: **`unity-npc-behavior`** (Fluid BT + NPBehave), **`unity-npc-goap`** (GOAP planning),
+  **`unity-npc-movement`** (steering), **`unity-multiplayer`** (Netcode), **`unity-ecs-performance`**
+  (DOTS), **`unity-ml-agents`** (RL), **`unity-api-lookup`** (verify APIs against `UnityCsReference`),
+  **`unity-subsystems`** (find pooling/save/procgen/… in the curated indexes).
+
+**Grounded memory:** the small gameplay repos (`NPBehave`, `fluid-behavior-tree`, `unity-movement-ai`,
+`GOAP`) are indexed with the **engine-ai** MCP (`index_repo`), so a skill can pull the *exact* current
+API with `search_repo(path, query)` on demand rather than reloading source. Import the skills into
+engine-ai's registry with `import_repo_skills(".claude/skills")`. Each skill is license-aware (MIT/Apache
+→ copyable; Unity Companion → UPM; `UnityCsReference` → reference-only).
+
+### Agent-to-agent workflow (build a full game)
+
+The package also ships **12 Claude Code sub-agents** in `.claude/agents/` (visible under `/agents`), an
+agent-to-agent team modeled on Google ADK's multi-agent patterns (Coordinator/Dispatcher + Sequential /
+Parallel / Loop) and the Claude Agent SDK's per-agent system-prompt + tool-scope model:
+
+- **`game-director`** — the Coordinator: decomposes a game prompt, delegates each feature to a specialist
+  (via the Task tool), fans out independent work in parallel, and loops **build → playtest → fix** until it
+  works.
+- **`game-designer`** → build plan · **`unity-scene-builder`** → arena/player/UI/scripts ·
+  **`npc-brain-engineer`** → behavior-tree/GOAP AI · **`movement-engineer`** → steering ·
+  **`multiplayer-engineer`** → Netcode · **`performance-engineer`** → DOTS/pooling ·
+  **`ml-agents-engineer`** → RL scaffolding.
+- Read-only support: **`unity-api-verifier`** (grep `UnityCsReference`) · **`subsystems-scout`** (search the
+  awesome-* indexes) · **`game-research-agent`** (web) · **`unity-playtester`** (the generator-critic —
+  drives input in Play mode and reports PASS/FAIL).
+
+Each agent knows its matching skill + `repo/` tool, so the director hands out *features + acceptance tests*,
+not implementation detail. Kick it off with e.g. *"use game-director to build a 1v1 FPV fighting game."*
 
 ---
 
