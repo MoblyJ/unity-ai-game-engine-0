@@ -449,6 +449,26 @@ See **[Integration-plan.md](Integration-plan.md)** for the full plan. Summary:
 
 <img src="assets/banner-trouble.svg" alt="Troubleshooting" width="100%">
 
+- **`npm install` fails with `spawn sh ENOENT` / `TAR_ENTRY_ERROR`** — the auto-connect `postinstall`
+  couldn't run in your shell environment, so npm rolled the install back. Install skipping scripts, then
+  connect manually:
+  ```bash
+  npm install -g --ignore-scripts github:MoblyJ/unity-ai-game-engine-0#main
+  unity-mcp-bridge connect        # stages the server, installs deps, registers the MCP
+  ```
+- **`/mcp` shows `unity-editor · X failed`** — the MCP **server process** can't start on this machine
+  (this is *before* it ever tries to reach Unity). See the real error and the command it runs:
+  ```bash
+  claude mcp get unity-editor     # shows: python.exe  C:\Users\<you>\unity-mcp\server\unity_editor_mcp.py
+  claude --debug                  # then open /mcp to read the server's stderr
+  ```
+  Then, on a **fresh machine**, fix the usual gaps (in order):
+  1. **Windows Python missing** — the server runs on Windows `python.exe`. In WSL: `python.exe --version`.
+     If not found, install Python 3.11+ from python.org (tick *Add to PATH*), then `unity-mcp-bridge connect`.
+  2. **Server not staged / deps missing** — `unity-mcp-bridge connect` stages the server and pip-installs
+     `mcp` + `pydantic`. Verify: `python.exe -c "import mcp, pydantic; print('ok')"`.
+  3. **Unity not open** — even once the server starts, tool calls need Unity running with the Agent Bridge.
+     Run `~/UnityMCPSetup.exe` on Windows, then **reload Claude Code** (`/mcp` or restart).
 - **`⚠️ Cannot reach the Unity bridge`** — Unity isn't open, or the Agent Bridge window isn't Started,
   or the port differs. Confirm it shows `● LISTENING`.
 - **Tools not in Claude Code** — MCP servers load at startup; **reload Claude Code**. Or Windows Python
