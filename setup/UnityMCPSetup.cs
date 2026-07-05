@@ -154,14 +154,18 @@ static class UnityMCPSetup
     {
         Head("4/6  Registering the MCP server with Claude Code");
         string script = Path.Combine(stageServer, "unity_editor_mcp.py");
-        string inner = "claude mcp remove unity-editor >/dev/null 2>&1; " +
+        // Put the common npm global bin on PATH so `claude` resolves in a login shell.
+        string inner = "export PATH=$HOME/.npm-global/bin:$HOME/.local/bin:$PATH; " +
+                       "claude mcp remove unity-editor >/dev/null 2>&1; " +
                        "claude mcp add unity-editor -- python.exe '" + script + "'";
         string wslArgs = "-d " + _distro + " bash -lc \"" + inner + "\"";
         int code;
         var outp = Run("wsl.exe", wslArgs, out code);
         Console.WriteLine(outp.Trim());
         if (code != 0)
-            Warn("Could not auto-register. Run this in WSL:\n     claude mcp add unity-editor -- python.exe \"" + script + "\"");
+            Warn("Could not auto-register (the Claude CLI wasn't on the setup shell's PATH).\n" +
+                 "   Finish it from WSL with:   unity-mcp-bridge connect\n" +
+                 "   (or manually:  claude mcp add unity-editor -- python.exe \"" + script + "\")");
         else
             Ok("Registered. Reload Claude Code (restart it or /mcp) to load the unity_* tools.");
     }
@@ -206,7 +210,9 @@ static class UnityMCPSetup
             // Default No: only create a project (which generates the Assets folder) if the user opts in.
             if (!AskDefaultNo("Create a new Unity project (generates the Assets folder)? [y/N] "))
             { Warn("No project selected. Create one in Unity Hub (or re-run and choose Y), then re-run."); return; }
-            Console.Write("   New project full path (e.g. C:\\Users\\mjmob\\UnityProjects\\MyGame): ");
+            string uname = Environment.GetEnvironmentVariable("USERNAME");
+            if (uname == null || uname.Length == 0) uname = "you";
+            Console.Write("   New project full path (e.g. C:\\Users\\" + uname + "\\UnityProjects\\MyGame): ");
             proj = (Console.ReadLine() ?? "").Trim().Trim('"');
             if (proj.Length == 0) { Warn("No path given; skipping project creation."); return; }
             if (!CreateUnityProject(editor, proj)) return;
