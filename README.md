@@ -264,8 +264,22 @@ On install, a **postinstall** step runs automatically and:
 
 Then **reload Claude Code** (`/mcp`) so the `unity_*` tools load.
 
-Commands: `check` · `connect` (re-run the auto-connect) · `link <projectPath>` (remember a Unity project
-so updates refresh its bridge) · `build` · `setup` · `run` · `help`.
+Commands: `check` · **`doctor`** (one-shot pass/fail health check — run this first if anything's off) ·
+`connect` (re-run the auto-connect) · `link <projectPath>` (remember a Unity project so updates refresh its
+bridge) · `build` · `setup` · `run` · `help`.
+
+Run **`unity-mcp-bridge doctor`** any time to check the whole chain at a glance:
+
+```
+PASS  Windows Python              Python 3.12.4
+PASS  Python deps (mcp+pydantic)  importable
+PASS  Server staged               C:\Users\you\unity-mcp\server\unity_editor_mcp.py
+PASS  MCP registered              python.exe C:\Users\you\unity-mcp\server\unity_editor_mcp.py
+WARN  Unity bridge (127.0.0.1:8765)  not listening   → open Unity (run ~/UnityMCPSetup.exe)
+Summary: 9 pass · 1 warn · 0 fail
+```
+Each FAIL comes with the exact fix; on a fresh machine the usual failures are *Windows Python* and
+*Python deps* — fix those, run `unity-mcp-bridge connect`, and re-run `doctor`.
 
 > The repo must be **public** (or use a git token) for other machines to `npm install` it.
 > Opt out of the auto-connect with `UNITY_MCP_NO_POSTINSTALL=1`; override scope with `UNITY_MCP_SCOPE=local|project|user`.
@@ -457,8 +471,11 @@ See **[Integration-plan.md](Integration-plan.md)** for the full plan. Summary:
   unity-mcp-bridge connect        # stages the server, installs deps, registers the MCP
   ```
 - **`/mcp` shows `unity-editor · X failed`** — the MCP **server process** can't start on this machine
-  (this is *before* it ever tries to reach Unity). See the real error and the command it runs:
+  (this is *before* it ever tries to reach Unity). **First run `unity-mcp-bridge doctor`** — it pinpoints
+  which piece is missing (Windows Python, deps, staged server, registration, Unity port). For the raw
+  stderr:
   ```bash
+  unity-mcp-bridge doctor         # pass/fail of the whole chain, with the exact fix per failure
   claude mcp get unity-editor     # shows: python.exe  C:\Users\<you>\unity-mcp\server\unity_editor_mcp.py
   claude --debug                  # then open /mcp to read the server's stderr
   ```

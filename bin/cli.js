@@ -5,6 +5,7 @@
  *
  * Commands:
  *   unity-mcp-bridge check     Detect WSL, Windows Python, Unity Hub + Editors, Claude CLI.
+ *   unity-mcp-bridge doctor    Full pass/fail health check of the bridge chain (Python, deps, MCP, Unity port).
  *   unity-mcp-bridge connect   Register the MCP server with Claude Code + stage the exe to ~/ (also runs on npm install).
  *   unity-mcp-bridge build     Compile the Windows setup exe from source (uses the built-in csc).
  *   unity-mcp-bridge setup     (default) check -> ensure exe -> run the exe to wire everything up.
@@ -140,6 +141,7 @@ Usage:
 
 Commands:
   check      Detect WSL, Windows Python, Unity Hub + Editors, Claude CLI (no changes)
+  doctor     Full pass/fail health check of the whole bridge chain (Python, deps, MCP, Unity port)
   connect    Register the MCP server with Claude Code + drop the setup exe in ~/ (auto-runs on npm install)
   link <p>   Remember a Unity project + copy the C# bridge in; npm update then refreshes it automatically
   build      Compile the Windows setup exe from source
@@ -158,11 +160,14 @@ function main() {
   try {
     switch (cmd) {
       case 'check':
-      case 'doctor':
         report(detect());
         return;
       case 'connect':
         require('../scripts/connect').connect();
+        return;
+      case 'doctor':
+      case 'diagnose':
+        process.exit(require('../scripts/doctor').doctor());
         return;
       case 'link':
         require('../scripts/connect').link(process.argv[3]);
